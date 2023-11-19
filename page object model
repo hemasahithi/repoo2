@@ -1,0 +1,181 @@
+package com.ninjademo.qa.Base;
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.time.Duration;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+public class TestBase {
+	
+	//Base class indicates the driver session and Application details
+	
+	public static WebDriver driver;
+	public static ExtentReports extentreports;
+	public static ExtentTest extentTest;
+	
+	public static void openBrowser(String browser) {
+		
+		driver = new ChromeDriver();
+		
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+		driver.get("https://tutorialsninja.com/demo/");
+	}
+	
+	@BeforeTest
+	public void getnameMethod(ITestContext context) {
+		
+		extentTest = extentreports.createTest(context.getName());
+	}
+	
+	@BeforeSuite // this method will be excuted before suite begins its execution
+	public void InitalizeExtentReport() {
+		ExtentSparkReporter sparkreporter = new ExtentSparkReporter("register_user_report.html");
+		extentreports = new ExtentReports();
+		extentreports.attachReporter(sparkreporter);
+		// on the report display more information about OS, browser, java etc
+		extentreports.setSystemInfo("OS", System.getProperty("os.name"));
+		extentreports.setSystemInfo("JAVA", System.getProperty("java.version"));
+
+	}
+
+	@AfterSuite
+	public void generateReports() throws IOException {
+		extentreports.flush();
+		Desktop.getDesktop().browse(new File("register_user_report.html").toURI());
+	}
+
+	@AfterMethod
+	public void generateTestStatus(Method m, ITestResult result) {
+		if (result.getStatus() == ITestResult.FAILURE) {
+			System.out.println("Capture Screenshot");
+			extentTest.fail(result.getThrowable());
+		} else if (result.getStatus() == ITestResult.SUCCESS) {
+			extentTest.pass(m.getName() + " is passed");
+		}
+	}
+}
+
+//pages
+package com.ninjademo.qa.Pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class HomePage {
+
+	//WebDriver driver;
+
+	// Create PageFactory
+
+	@FindBy(xpath = "//span[text()='My Account']")
+	WebElement myaccount;
+
+	@FindBy(xpath = "//a[text()='Register']")
+	WebElement register;
+
+	@FindBy(linkText = "Login")
+	WebElement login;
+
+	@FindBy(xpath = "//span[text()='Wish List (0)']")
+	WebElement wishlist;
+
+	//to use page factory
+	public HomePage(WebDriver driver) {
+
+		PageFactory.initElements(driver, this);//constructor
+	}
+
+	// Actions
+
+	public void clickOnMyAccount() {
+
+		myaccount.click();
+	}
+
+	public void clickOnLogin() {
+
+		login.click();
+
+	}
+
+	public void clickOnRegister() {
+
+		register.click();
+	}
+
+	public void clickOnWishList() {
+
+		wishlist.click();
+	}
+
+}
+
+//page test
+package com.ninjademo.qa.TestPages;
+
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import com.ninjademo.qa.Base.TestBase;
+import com.ninjademo.qa.Pages.HomePage;
+
+@Listeners(ItestListenerClass.class)
+public class HomePageTest extends TestBase {
+
+	HomePage hp;
+
+	@BeforeClass
+	public void OpenApp() {
+
+		openBrowser("Chrome");
+		hp = new HomePage(driver);
+	}
+
+	@Test(priority = '1')
+	public void clickOnRegisterPage() throws InterruptedException {
+
+		Thread.sleep(2000);
+		hp.clickOnMyAccount();
+		Thread.sleep(2000);
+		hp.clickOnRegister();
+		Thread.sleep(2000);
+
+	}
+
+	@Test(priority = '2')
+	public void clickOnLogin() throws InterruptedException {
+
+		Thread.sleep(2000);
+		hp.clickOnMyAccount();
+		Thread.sleep(2000);
+		hp.clickOnLogin();
+		Thread.sleep(2000);
+
+	}
+
+	@AfterClass
+	public void CloseApp() {
+
+		driver.quit();
+	}
+
+}
