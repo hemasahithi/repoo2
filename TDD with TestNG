@@ -1,0 +1,46 @@
+package test.testing;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class AddNumbers {
+
+	@Test
+	
+	public void addIntegerNumbers()
+	{
+		Calculator myCalculator = new Calculator();
+		int expected= 30;
+		int actual= myCalculator.add(10,20);
+		Assert.assertEquals(actual, expected);
+	}
+}
+
+package test.testing;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class AddNumbers {
+
+	@Test
+	
+	public void addIntegerNumbers()
+	{
+		Calculator myCalculator = new Calculator();
+		int expected= 30;
+		int actual= myCalculator.add(10,20);
+		Assert.assertEquals(actual, expected);
+	}
+}
+
+
+package test.testing;
+
+public class Calculator {
+
+	public int add(int number1, int number2)
+	{
+		return (number1+number2);
+	}
+}
