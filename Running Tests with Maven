@@ -1,0 +1,163 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>junit-jupiter-params</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Junit</name>
+  <url>http://maven.apache.org</url>
+<properties>
+    <maven.compiler.source>1.9</maven.compiler.source>
+    <maven.compiler.target>1.9</maven.compiler.target>
+  </properties>
+  	<build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+            </plugin>
+        </plugins>
+    </build>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  
+<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+	<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.2.0</version>
+    <scope>test</scope>
+	</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-engine</artifactId>
+    <version>5.2.0</version>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-params</artifactId>
+    <version>5.0.0</version>
+    <scope>test</scope>
+</dependency>
+
+  </dependencies>
+  <groupId>org.junit.jupiter</groupId>
+</project>
+
+
+MagicBuilder.java
+package SSS.Junit;
+public class MagicBuilder {
+
+    public static int getLucky() {
+        return 7;
+    }
+}
+
+Textbuild.java
+package SSS.Junit;
+
+public class Textbuild {
+
+    public static String getHelloWorld(){
+        return "hello world";
+    }
+   public static int getNumber10(){
+        return 10;
+    }
+}
+
+
+	Test class for MagicBuilder
+TestMagicBuilder.java
+
+package SSS.Junit;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class TestMagicBuilder {
+
+    @Test
+    public void testLucky() {
+        assertEquals(7, MagicBuilder.getLucky());
+    }
+
+}
+
+Test class for Textbuild
+pom.xml
+package SSS.Junit;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class Msgbuild {
+
+    @Test
+    public void testHelloWorld() {
+        assertEquals("hello world", Textbuild.getHelloWorld());
+    }
+
+    @Test
+    public void testNumber10() {
+        assertEquals(10, Textbuild.getNumber10());
+    }
+
+}
+
+ Executing Maven Test
+●	While we run the POM and class files with Maven, the below results will be generated at the console:
+	Run all test classes
+$ mvn test
+
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running SSS.Junit.TestMagicBuilder
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in SSS.Junit.TestMagicBuilder
+[INFO] Running SSS.Junit.Msgbuild
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in SSS.Junit.Msgbuild
+[INFO]
+
+	Run a single test class Msgbuild
+Terminal
+$ mvn -Dtest=Msgbuild test
+
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running SSS.Junit.Msgbuild
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in SSS.Junit.Msgbuild
+[INFO]
+
+Run a single test method testHelloWorld() from the test class Msgbuild
+Terminal
+$ mvn -Dtest=Msgbuild#testHelloWorld test
+
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running SSS.Junit.Msgbuild
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in SSS.Junit.Msgbuild
+[INFO]
+
+
+
+
