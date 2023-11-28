@@ -1,0 +1,25 @@
+package com.app.junitDemo;
+
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+
+public class RepeatedTests {
+	
+	@RepeatedTest(3)
+	@DisplayName("Repeated Test Methods")
+
+	
+	public void repeatmessage() {
+		System.out.println("Learning JUnit..");
+	}
+	@Test
+	public void AssumptionDemo() {
+		
+		boolean isDBServerUp = true;
+		Assumptions.assumeTrue(isDBServerUp,"DB Server is not Up and Running..");
+		
+		System.out.println("Create the table and insert data");
+	}
+}
