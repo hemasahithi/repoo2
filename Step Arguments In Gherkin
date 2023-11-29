@@ -1,0 +1,30 @@
+#""" (Doc Strings)
+## this is used when we have to write 2-3 lines of text in the feature file,
+## Instead of writing it in a single line, you can write it in multiple lines using Doc strings
+Feature: Email page test
+
+  Scenario: New file for docString demo
+    When I reset my password on the email
+    Then I should receive an email with the following content
+      """
+      Hello sahithi,
+       Please click on this to reset the password
+       
+       Thanks,
+       Admin Team
+       
+      """
+
+Feature: Create account on wiki page
+
+  Scenario: User creates account on wiki page using input from cucumber data table
+    Given User is on Create Account Page
+    Then User enters following details
+      | admin  | admin@123 | admin@123 | admin@gmail.com       |
+      | Farhan | admin@123 | admin@123 | farhanadmin@gmail.com |
+      | Kiran  | admin@123 | admin@123 | kiranadmin@gmail.com  |
+      | Arpita | admin@123 | admin@123 | arpitaadmin@gmail.com |
+      | pavan  | admin@123 | admin@123 | pavanadmin@gmail.com  |
+      | John   | admin@123 | admin@123 | johnadmin@gmail.com   |
+      | Marc   | admin@123 | admin@123 | marcadmin@gmail.com   |
+    Then Account creation is successful
